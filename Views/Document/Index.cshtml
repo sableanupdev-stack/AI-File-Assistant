@@ -1,0 +1,20 @@
+﻿@model FileAssistant1.Models.UploadDocumentViewModel
+
+<h2>AI File Assistant</h2>
+
+<form asp-action="Index" method="post" enctype="multipart/form-data">
+
+    <input asp-for="File" type="file" />
+
+    <br />
+    <br />
+
+    <button type="submit">
+        Upload
+    </button>
+
+</form>
+
+<br />
+
+<textarea rows="25" cols="120">@Model.ExtractedText</textarea>
