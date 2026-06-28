@@ -14,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PdfDocumentReader>();
 builder.Services.AddScoped<IChunkingService, ChunkingService>();
-builder.Services.AddScoped<IEmbeddingService, OpenAIEmbeddingService>();
 builder.Services.Configure<OllamaSettings>(
     builder.Configuration.GetSection("Ollama"));
 builder.Services.AddHttpClient<IEmbeddingService, OllamaEmbeddingService>();
@@ -38,6 +37,13 @@ builder.Services.AddSingleton<QdrantClient>(sp =>
         port: settings.Port);
 });
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var vectorStore = scope.ServiceProvider
+        .GetRequiredService<IVectorStoreService>();
+
+    await vectorStore.InitializeCollectionAsync();
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

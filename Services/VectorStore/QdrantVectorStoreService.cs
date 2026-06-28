@@ -2,6 +2,7 @@
 using FileAssistant1.Models.Entities;
 using Microsoft.Extensions.Options;
 using Qdrant.Client;
+using Qdrant.Client.Grpc;
 
 namespace FileAssistant1.Services.VectorStore
 {
@@ -17,9 +18,20 @@ namespace FileAssistant1.Services.VectorStore
             _settings = options.Value;
         }
 
-        public Task InitializeCollectionAsync()
+        public async Task InitializeCollectionAsync()
         {
-            throw new NotImplementedException();
+            var collections = await _client.ListCollectionsAsync();
+
+            if (collections.Contains(_settings.CollectionName))
+                return;
+
+            await _client.CreateCollectionAsync(
+                collectionName: _settings.CollectionName,
+                vectorsConfig: new VectorParams
+                {
+                    Size = 768,
+                    Distance = Distance.Cosine
+                });
         }
 
         public Task<List<DocumentVector>> SearchAsync(ReadOnlyMemory<float> embedding, int top = 5)
