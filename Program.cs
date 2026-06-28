@@ -1,8 +1,10 @@
 using FileAssistant1.Configuration;
 using FileAssistant1.Services;
 using FileAssistant1.Services.Embeddings;
+using FileAssistant1.Services.Ingestion;
 using FileAssistant1.Services.Interfaces;
 using FileAssistant1.Services.Readers;
+using FileAssistant1.Services.VectorStore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,14 @@ builder.Services.AddScoped<IEmbeddingService, OpenAIEmbeddingService>();
 builder.Services.Configure<OllamaSettings>(
     builder.Configuration.GetSection("Ollama"));
 builder.Services.AddHttpClient<IEmbeddingService, OllamaEmbeddingService>();
+builder.Services.AddScoped<
+    IVectorStoreService,
+    QdrantVectorStoreService>();
+builder.Services.Configure<QdrantSettings>(
+    builder.Configuration.GetSection("Qdrant"));
+builder.Services.AddScoped<
+    IDocumentIngestionService,
+    DocumentIngestionService>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

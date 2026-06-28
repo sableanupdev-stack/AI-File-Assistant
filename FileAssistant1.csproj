@@ -10,6 +10,7 @@
     <PackageReference Include="itext7" Version="9.6.0" />
     <PackageReference Include="itext7.pdfhtml" Version="6.3.2" />
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.77.0" />
+    <PackageReference Include="Qdrant.Client" Version="1.18.1" />
   </ItemGroup>
 
   <ItemGroup>
