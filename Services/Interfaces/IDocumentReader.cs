@@ -1,4 +1,4 @@
-﻿namespace FileAssistant1.Services.Interface
+﻿namespace FileAssistant1.Services.Interfaces
 {
     public interface IDocumentReader
     {
