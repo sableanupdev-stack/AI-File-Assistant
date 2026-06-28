@@ -1,4 +1,5 @@
 ﻿using FileAssistant1.Models.Entities;
+using FileAssistant1.Models.Search;
 
 namespace FileAssistant1.Services.VectorStore
 {
@@ -6,10 +7,10 @@ namespace FileAssistant1.Services.VectorStore
     {
          Task InitializeCollectionAsync();
 
-    Task StoreAsync(DocumentVector document);
+          Task StoreAsync(DocumentVector document);
 
-    Task<List<DocumentVector>> SearchAsync(
-        ReadOnlyMemory<float> embedding,
-        int top = 5);
+        Task<List<SearchResult>> SearchAsync(
+         ReadOnlyMemory<float> embedding,
+         int top = 5);
     }
 }

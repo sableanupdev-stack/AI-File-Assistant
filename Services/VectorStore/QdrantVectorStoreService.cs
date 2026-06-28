@@ -1,5 +1,6 @@
 ﻿using FileAssistant1.Configuration;
 using FileAssistant1.Models.Entities;
+using FileAssistant1.Models.Search;
 using Microsoft.Extensions.Options;
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
@@ -34,9 +35,36 @@ namespace FileAssistant1.Services.VectorStore
                 });
         }
 
-        public Task<List<DocumentVector>> SearchAsync(ReadOnlyMemory<float> embedding, int top = 5)
+        public async Task<List<SearchResult>> SearchAsync(ReadOnlyMemory<float> embedding,int top = 5)
         {
-            throw new NotImplementedException();
+            var results = await _client.QueryAsync(
+                collectionName: _settings.CollectionName,
+                query: embedding.ToArray(),
+                limit: (ulong)top);
+
+            var documents = new List<SearchResult>();
+
+            foreach (var point in results)
+            {
+                var document = new DocumentVector
+                {
+                    Id = Guid.Parse(point.Id.Uuid),
+
+                    Text = point.Payload["text"].StringValue,
+
+                    FileName = point.Payload["fileName"].StringValue,
+
+                    ChunkIndex = (int)point.Payload["chunkIndex"].IntegerValue
+                };
+
+                documents.Add(new SearchResult
+                {
+                    Document = document,
+                    Score = point.Score
+                });
+            }
+
+            return documents;
         }
 
         public async Task StoreAsync(DocumentVector document)

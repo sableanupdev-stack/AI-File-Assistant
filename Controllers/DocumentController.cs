@@ -1,6 +1,7 @@
 ﻿using FileAssistant1.Models;
 using FileAssistant1.Services.Embeddings;
 using FileAssistant1.Services.Ingestion;
+using FileAssistant1.Services.VectorStore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileAssistant1.Controllers
@@ -47,6 +48,20 @@ namespace FileAssistant1.Controllers
                 Dimension = embedding.Length,
                 First10Values = embedding.ToArray().Take(10)
             });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TestSearch([FromServices] IEmbeddingService embeddingService,
+                                                    [FromServices] IVectorStoreService vectorStore)
+        {
+            var embedding =
+                await embeddingService.GenerateEmbeddingAsync(
+                    "Anup Sable");
+
+            var results =
+                await vectorStore.SearchAsync(embedding);
+
+            return Json(results);
         }
     }
 }
