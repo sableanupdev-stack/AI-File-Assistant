@@ -69,6 +69,21 @@ LLM Response
 - [ ] AI Agent
 - [ ] Conversation Memory
 
+## 📈 Current Progress
+
+| Feature | Status |
+|----------|--------|
+| PDF Upload | ✅ |
+| PDF Extraction | ✅ |
+| Chunking | ✅ |
+| Ollama Embeddings | ✅ |
+| Docker | ✅ |
+| Qdrant | ✅ |
+| Store Vectors | 🚧 |
+| Semantic Search | ⏳ |
+| Chatbot | ⏳ |
+| AI Agent | ⏳ |
+
 ---
 
 ## 👨‍💻 Author

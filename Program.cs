@@ -5,6 +5,8 @@ using FileAssistant1.Services.Ingestion;
 using FileAssistant1.Services.Interfaces;
 using FileAssistant1.Services.Readers;
 using FileAssistant1.Services.VectorStore;
+using Microsoft.Extensions.Options;
+using Qdrant.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,17 @@ builder.Services.Configure<QdrantSettings>(
 builder.Services.AddScoped<
     IDocumentIngestionService,
     DocumentIngestionService>();
+
+builder.Services.AddSingleton<QdrantClient>(sp =>
+{
+    var settings = sp
+        .GetRequiredService<IOptions<QdrantSettings>>()
+        .Value;
+
+    return new QdrantClient(
+        host: settings.Host,
+        port: settings.Port);
+});
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
