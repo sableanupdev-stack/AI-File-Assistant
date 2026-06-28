@@ -5,5 +5,7 @@
         public int ChunkNumber { get; set; }
 
         public string Content { get; set; } = string.Empty;
+
+        public string FileName { get; set; } = string.Empty;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using FileAssistant1.Models;
 using FileAssistant1.Services.Embeddings;
-using FileAssistant1.Services.Interfaces;
-using FileAssistant1.Services.Readers;
+using FileAssistant1.Services.Ingestion;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileAssistant1.Controllers
@@ -9,13 +8,13 @@ namespace FileAssistant1.Controllers
 
     public class DocumentController : Controller
     {
-        private readonly PdfDocumentReader _reader;
-        private readonly IChunkingService _chunkingService;
 
-        public DocumentController(PdfDocumentReader reader, IChunkingService chunkingService)
+        private readonly IDocumentIngestionService _documentIngestionService;
+
+        public DocumentController(
+            IDocumentIngestionService documentIngestionService)
         {
-            _reader = reader;
-            _chunkingService = chunkingService;
+            _documentIngestionService = documentIngestionService;
         }
 
         [HttpGet]
@@ -30,11 +29,11 @@ namespace FileAssistant1.Controllers
             if (model.File == null)
                 return View(model);
 
-            using var stream = model.File.OpenReadStream();
-            var text = await _reader.ReadAsync(stream);
+            await _documentIngestionService.ProcessDocumentAsync(model.File);
 
-            var chunks = _chunkingService.CreateChunks(text);
-            return Content($"Total Chunks : {chunks.Count}");
+            ViewBag.Message = "Document uploaded successfully and indexed.";
+
+            return View(new UploadDocumentViewModel());
         }
 
         [HttpGet]

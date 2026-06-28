@@ -39,9 +39,33 @@ namespace FileAssistant1.Services.VectorStore
             throw new NotImplementedException();
         }
 
-        public Task StoreAsync(DocumentVector document)
+        public async Task StoreAsync(DocumentVector document)
         {
-            throw new NotImplementedException();
+            var point = new PointStruct
+            {
+                Id = new PointId
+                {
+                    Uuid = document.Id.ToString()
+                },
+                Vectors = new Vectors
+                {
+                    Vector = new Vector
+                    {
+                        Data = { document.Embedding.ToArray() }
+                    }
+                },
+                Payload =
+                {
+                    ["text"] = document.Text,
+                    ["fileName"] = document.FileName,
+                    ["chunkIndex"] = document.ChunkIndex,
+                    ["uploadedAt"] = DateTime.UtcNow.ToString("O")
+                }
+            };
+
+            await _client.UpsertAsync(
+                collectionName: _settings.CollectionName,
+                points: new[] { point });
         }
     }
 }

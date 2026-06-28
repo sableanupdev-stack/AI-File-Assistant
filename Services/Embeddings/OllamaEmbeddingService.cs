@@ -36,7 +36,7 @@ namespace FileAssistant1.Services.Embeddings
 
             if (result == null || result.Embeddings.Count == 0)
             {
-                throw new Exception("Embedding generation failed.");
+                throw new InvalidOperationException("Embedding generation failed.");
             }
 
             return new ReadOnlyMemory<float>(

@@ -7,7 +7,7 @@ namespace FileAssistant1.Services.Readers
 {
     public class PdfDocumentReader : IDocumentReader
     {
-        public async Task<string> ReadAsync(Stream stream)
+        public Task<string> ReadAsync(Stream stream)
         {
             var builder = new StringBuilder();
 
@@ -16,16 +16,11 @@ namespace FileAssistant1.Services.Readers
 
             for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
             {
-                var page = pdf.GetPage(i);
-
-                string text = PdfTextExtractor.GetTextFromPage(page);
-
-                builder.AppendLine(text);
+                builder.AppendLine(
+                    PdfTextExtractor.GetTextFromPage(pdf.GetPage(i)));
             }
 
-            await Task.CompletedTask;
-
-            return builder.ToString();
+            return Task.FromResult(builder.ToString());
         }
     }
 }

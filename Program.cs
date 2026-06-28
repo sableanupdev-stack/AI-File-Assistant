@@ -1,6 +1,7 @@
 using FileAssistant1.Configuration;
 using FileAssistant1.Services;
 using FileAssistant1.Services.Embeddings;
+using FileAssistant1.Services.Factory;
 using FileAssistant1.Services.Ingestion;
 using FileAssistant1.Services.Interfaces;
 using FileAssistant1.Services.Readers;
@@ -36,6 +37,10 @@ builder.Services.AddSingleton<QdrantClient>(sp =>
         host: settings.Host,
         port: settings.Port);
 });
+builder.Services.AddScoped<DocumentReaderFactory>();
+builder.Services.AddScoped<WordDocumentReader>();
+builder.Services.AddScoped<DocumentReaderFactory>();
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

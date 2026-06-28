@@ -84,6 +84,15 @@ LLM Response
 | Chatbot | ⏳ |
 | AI Agent | ⏳ |
 
+## ✅ Completed
+
+- PDF Upload
+- PDF Extraction
+- Chunking
+- Ollama Embeddings
+- Qdrant Integration
+- Automatic Collection Creation
+
 ---
 
 ## 👨‍💻 Author
