@@ -84,15 +84,16 @@ LLM Response
 | Chatbot | ⏳ |
 | AI Agent | ⏳ |
 
-## ✅ Completed
+## ✅ Completed Features
 
-- PDF Upload
-- PDF Extraction
-- Chunking
-- Ollama Embeddings
-- Qdrant Integration
-- Automatic Collection Creation
-
+- Upload PDF documents
+- PDF text extraction
+- Document chunking
+- Local embeddings using Ollama
+- Store embeddings in Qdrant
+- Clean architecture
+- Dependency Injection
+- Factory Pattern for document readers
 ---
 
 ## 👨‍💻 Author
