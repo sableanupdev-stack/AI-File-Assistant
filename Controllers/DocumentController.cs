@@ -43,7 +43,11 @@ namespace FileAssistant1.Controllers
         {
             var embedding = await embeddingService.GenerateEmbeddingAsync("I love .NET");
 
-            return Content($"Embedding Length: {embedding.Length}");
+            return Json(new
+            {
+                Dimension = embedding.Length,
+                First10Values = embedding.ToArray().Take(10)
+            });
         }
     }
 }

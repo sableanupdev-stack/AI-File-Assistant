@@ -31,14 +31,17 @@ namespace FileAssistant1.Services.Embeddings
 
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<OllamaEmbeddingResponse>();
+            var result = await response.Content
+                                       .ReadFromJsonAsync<OllamaEmbeddingResponse>();
 
             if (result == null || result.Embeddings.Count == 0)
             {
                 throw new Exception("Embedding generation failed.");
             }
 
-            return new ReadOnlyMemory<float>(result.Embeddings[0].ToArray());
+            return new ReadOnlyMemory<float>(
+                result.Embeddings.First().ToArray());
+          
         }
     }
 }
