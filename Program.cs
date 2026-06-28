@@ -1,6 +1,7 @@
+using FileAssistant1.Configuration;
 using FileAssistant1.Services;
 using FileAssistant1.Services.Embeddings;
-using FileAssistant1.Services.Interface;
+using FileAssistant1.Services.Interfaces;
 using FileAssistant1.Services.Readers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PdfDocumentReader>();
 builder.Services.AddScoped<IChunkingService, ChunkingService>();
 builder.Services.AddScoped<IEmbeddingService, OpenAIEmbeddingService>();
-
+builder.Services.Configure<OllamaSettings>(
+    builder.Configuration.GetSection("Ollama"));
+builder.Services.AddHttpClient<IEmbeddingService, OllamaEmbeddingService>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

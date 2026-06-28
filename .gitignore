@@ -1,29 +1,14 @@
-# Build folders
+# Build
 bin/
 obj/
 
 # Visual Studio
 .vs/
-
-# User files
 *.user
 *.suo
 
-# Rider
-.idea/
-
-# VS Code
-.vscode/
+# ASP.NET client libraries
+wwwroot/lib/
 
 # Logs
 *.log
-
-# OS files
-Thumbs.db
-.DS_Store
-
-# NuGet packages
-packages/
-
-# Publish output
-publish/

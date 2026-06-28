@@ -1,5 +1,5 @@
 ﻿using FileAssistant1.Models;
-using FileAssistant1.Services.Interface;
+using FileAssistant1.Services.Interfaces;
 
 namespace FileAssistant1.Services
 {

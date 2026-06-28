@@ -1,4 +1,4 @@
-﻿using FileAssistant1.Services.Interface;
+﻿using FileAssistant1.Services.Interfaces;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using System.Text;

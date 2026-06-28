@@ -1,10 +1,12 @@
 ﻿using FileAssistant1.Models;
-using FileAssistant1.Services.Interface;
+using FileAssistant1.Services.Embeddings;
+using FileAssistant1.Services.Interfaces;
 using FileAssistant1.Services.Readers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileAssistant1.Controllers
 {
+
     public class DocumentController : Controller
     {
         private readonly PdfDocumentReader _reader;
@@ -33,6 +35,15 @@ namespace FileAssistant1.Controllers
 
             var chunks = _chunkingService.CreateChunks(text);
             return Content($"Total Chunks : {chunks.Count}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TestEmbedding(
+        [FromServices] IEmbeddingService embeddingService)
+        {
+            var embedding = await embeddingService.GenerateEmbeddingAsync("I love .NET");
+
+            return Content($"Embedding Length: {embedding.Length}");
         }
     }
 }
